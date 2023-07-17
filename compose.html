@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Playfair+Display&display=swap" rel="stylesheet">
+<head>
+<title>home</title>
+<style>
+body{margin: 0;background-image: linear-gradient(to right top, #9762ed, #7c88ff, #6fa6ff, #7bc0ff, #9cd6ff, #a1d6f6, #a7d6ed, #afd5e5, #91c2d5, #72aec6, #519cb7, #2489a8); background-repeat: no-repeat;}
+.topnav {
+  display: flex;
+  background-image: linear-gradient(to left top, #390f93, #401d90, #46278c, #4c3089, #513985);
+  flex-wrap: wrap;
+  width: 100%;
+  flex-direction: row;
+  overflow: hidden;
+  justify-content: space-evenly;
+}
+
+.topnav > a {
+  text-align: center;
+color: #FFD1FF;
+  font-size: 20px;
+padding:10px;
+}
+.heading{
+  color:#386D81;
+  font-family: "Playfair Display", serif;
+  font-size: 96px;
+  width:100%;
+  text-align: center;
+  background-image: linear-gradient(to left top, #9762ed, #a074e0, #a786d4, #ac97c7, #b0a8b9);
+  height: 140px;
+}
+.tabla{width: 100%; padding:0px;color:#4B4453;padding-top: 30px;  font-family:'Open Sans',sans-serif;font-size: 25px;text-align:center;display:flex;flex-direction: column;}
+.ky{background-image: linear-gradient(to right top, #322746, #31274f, #2f2858, #2a2961, #222a6b, #232869, #242667, #252465, #2d1f58, #301a4b, #2f173f, #2d1434); color: white;}
+
+@media only screen and (max-width: 600px) {
+  .topnav {width: 100%; padding:0px;color:#4B4453;padding-top: 30px;  font-family:'Open Sans',sans-serif;font-size: 25px;text-align:center;flex-direction: column;}
+  .topnav > a{
+  width: 100%;
+}
+}
+</style>
+</head>
+<body>
+<div class="topnav">
+<a href='compose.html'>Compose</a>
+<a href='lessons.html'>Video Lessons</a>
+<a href='s.html'>Live Lessons</a>
+</div>
+<div class="heading">Compose</div>
+<div style=" width: 100%; padding:0px;color:#4B4453;padding-top: 30px;  font-family:'Open Sans',sans-serif;font-size: 25px;text-align:center;"><b>Composer for Tabla</b><br></div>
+<section id="keyboard">
+
+<div class='tabla'>
+               <b> <div data-key="65" class="ky">
+                    <span class="sound">dha SOUND-A</span>
+                </div>
+                <div data-key="66" class="ky">
+                    <span class="sound">dhin SOUND-B</span>
+                </div>
+                <div data-key="67" class="ky">
+                    <span class="sound">ta SOUND-C</span>
+                </div>
+                <div data-key="68" class="ky">
+                    <span class="sound">tin SOUND-D</span>
+                </div>
+                <div data-key="69" class="ky">
+                    <span class="sound">tu SOUND-E</span>
+                </div>
+                <div data-key="70" class="ky">
+                    <span class="sound">ge SOUND-F</span>
+                </div>
+                <div data-key="71" class="ky">
+                    <span class="sound">na SOUND-G</span>
+                </div>
+                <div data-key="72" class="ky">
+                    <span class="sound">ke SOUND-H</span>
+                </div>
+                <div data-key="73" class="ky">
+                    <span class="sound">re SOUND-I</span>
+                </div>
+                <div data-key="74" class="ky">
+                    <span class="sound">te SOUND-J</span>
+                </div></b>
+</div><br><br>
+                <div style="text-align:center;"><form>
+                        <div>
+                            <span>YOUR NOTES:</span><br><br>
+                            <input type="text" name="noters" value="" placeholder="A,B,etc...." id="song-lyrics">
+				 <input type="number" name="timer" value="0" placeholder="0 - 1" id="song-timer" min="0" max="1" step="0.1">
+                            </div>
+                        <div>
+
+                        </div>
+                    <input type="submit" value="Play" id="play-song">
+                    <input type="submit" value="Reset" id="reset-song">
+                </form>
+
+
+        <audio data-key="65" src="dha.mp3"></audio>
+        <audio data-key="66" src="dhin.mp3"></audio>
+        <audio data-key="67" src="ta.mp3"></audio>
+        <audio data-key="68" src="tin.mp3"></audio>
+        <audio data-key="69" src="tu.mp3"></audio>
+        <audio data-key="70" src="ge.mp3"></audio>
+        <audio data-key="71" src="na.mp3"></audio>
+        <audio data-key="72" src="ke.mp3"></audio>
+        <audio data-key="73" src="re.mp3"></audio>
+        <audio data-key="74" src="te.mp3"></audio>
+	<audio data-key="99" src="sound.wav"></audio>
+
+    </section>
+<br><br>
+Scripts from <a href="https://github.com/MrunankB/guitar">MrunankB on GitHub</a>(modified)
+<br><br><br>
+    <script>
+
+        let keyNotes = {
+            "A": 65,
+            "B": 66,
+            "C": 67,
+            "D": 68,
+            "E": 69,
+            "F": 70,
+            "G": 71,
+            "H": 72,
+            "I": 73,
+            "J": 74,
+        }
+
+        
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return;
+            e.target.classList.remove('playing');
+        }
+
+        function playSound(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+            if (!audio) return;
+            key.classList.add('playing');
+            audio.currentTime = 0;
+            audio.play();
+        }
+        const keys = Array.from(document.querySelectorAll('.ky'));
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+        window.addEventListener('keydown', playSound);
+
+
+        function createSong(e) {
+            e.forEach(x => console.log(x));
+        }
+
+        //when any keyboard is touched this receive the information of that particular key.
+        
+        document.addEventListener('click', function (event) {
+            event.preventDefault();
+
+        (event.target.id == 'reset-song')? document.getElementById("song-lyrics").value = "":"";
+
+               if (event.target.id == 'play-song') {
+              
+                let interval = 400;
+                let mySong = document.getElementById("song-lyrics").value.toUpperCase().split("");
+                let timer = document.getElementById("song-timer").value;
+                mySong.forEach((x, index = 1000)=>{
+
+                    setTimeout(function () {
+
+                        const audio = document.querySelector(`audio[data-key="${keyNotes[x]}"]`);
+                        const key = document.querySelector(`div[data-key="${keyNotes[x]}"]`);
+                        interval = 2;
+                        if (!audio) {
+                            console.log("no note");
+                            document.querySelector(`audio[data-key="99"]`).play();
+                            interval = interval/8;
+                        } else {
+                            key.classList.add('playing');
+                            audio.currentTime = timer;
+                            audio.play();
+                        };
+
+                    }, index * interval);
+
+
+                });
+
+
+
+
+
+            } else {
+                console.log(event.target);
+            }
+
+
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
+
